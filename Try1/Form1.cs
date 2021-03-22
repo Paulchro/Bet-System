@@ -19,6 +19,7 @@ namespace Try1
         public Form1()
         {
             InitializeComponent();
+            this.BackgroundImage = Properties.Resources.istockphoto_1085581754_640x640;
             if (string.IsNullOrEmpty(textBox11.Text))
             {
                 textBox12.Enabled = false;
@@ -68,7 +69,7 @@ namespace Try1
             {
                 checkBox10.Enabled = false;
             }
-
+            label4.Visible = false;
 
 
 
@@ -252,8 +253,7 @@ namespace Try1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<double> results = new List<double>();
-           
+            label4.Visible = true;
             y = 0;
             double res = 1;
             double last = 0;
@@ -315,10 +315,11 @@ namespace Try1
 
                     }
                     Label labelnew = new Label();
-                    labelnew.Location = new Point(130, (i * 26));
+                    labelnew.Location = new Point(150, 10+(i * 26));
                     labelnew.Name = "Label" + y.ToString();
                     labelnew.Text = "\nBet System " + item.ToString() + " ,possible win " + ": " + (last * Convert.ToDouble(numericUpDown1.Text)).ToString() + "€";
                     labelnew.AutoSize = true;
+                    labelnew.BackColor = Color.Transparent;
                     this.Controls.Add(labelnew);
                     labellist.Add(labelnew);
                     i++;
@@ -356,6 +357,43 @@ namespace Try1
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void CleanForm()
+        {
+            foreach (var c in this.Controls)
+            {
+                if (c is TextBox)
+                {
+                    ((TextBox)c).Text = String.Empty;
+                }
+            }
+            foreach (Label _label in this.Controls.OfType<Label>().Where(a => a.Name == "Label" + y.ToString()).Select(a => a).ToArray())
+            {
+                Label l = labellist.ElementAt(y);
+                labellist.RemoveAt(y);
+                l.Dispose();
+
+            }
+            foreach (var c in this.Controls)
+            {
+                if (c is CheckBox)
+                {
+                    ((CheckBox)c).Checked = false;
+                }
+            }
+            list.Clear();
+            check.Clear();
+            numericUpDown1.Value = 0;
+            label15.Text = "Bet total: ";
+            label4.Visible = false;
+
+          
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            CleanForm();
         }
     }
 }
